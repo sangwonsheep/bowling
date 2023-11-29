@@ -6,13 +6,33 @@ public class NormalFrame implements Frame{
     private static final int TOTAL_PIN = 10;
 
     private int turn;
-    private int firstShot;
-    private int secondShot;
+    private Score score;
+    private int frameNumber;
 
     public NormalFrame(int frameNumber) {
-        this.firstShot = 0;
-        this.secondShot = 0;
+        this.frameNumber = frameNumber;
         turn = NORMAL_FRAME;
+        score = new Score(turn);
+    }
+
+    @Override
+    public int[] getScore() {
+        return score.getShotScores();
+    }
+
+    @Override
+    public int getTotalScore() {
+        return score.getTotalScore();
+    }
+
+    @Override
+    public int getFrameNumber() {
+        return frameNumber;
+    }
+
+    @Override
+    public String getState() {
+        return score.getState();
     }
 
     @Override
@@ -21,21 +41,18 @@ public class NormalFrame implements Frame{
     }
 
     @Override
-    public void playBawling(int pinCount) {
+    public void playBowling(int pinCount) {
         setScore(pinCount);
-        setTurn();
+        setTurn(pinCount);
     }
 
     private void setScore(int pinCount) {
-        if(!hasTurn()){
-            secondShot = pinCount;
-            return;
-        }
-        firstShot = pinCount;
+        score.setScore(pinCount, turn);
     }
 
-    private void setTurn() {
-        if(firstShot == TOTAL_PIN){
+    private void setTurn(int pinCount) {
+        score.calculateState();
+        if(pinCount == TOTAL_PIN){
             turn -= 2;
             return;
         }

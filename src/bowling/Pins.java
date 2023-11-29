@@ -7,16 +7,21 @@ public class Pins {
 	private int bowlingPins;
 	
 	public Pins() {
+		resetPin();
+	}
+
+	public int rollingBall() {
+		int randomNumber = (int)(Math.random() * bowlingPins) + 1;
+		hitBowlingPin(randomNumber);
+		return randomNumber;
+	}
+
+	public void resetPin() {
 		this.bowlingPins = MAX_BOWLING_PIN;
 	}
 
-	public void rollingBall() {
-		int randomNumber = (int)(Math.random() * MAX_BOWLING_PIN + 1);
-		hitBowlingPin(randomNumber);
-	}
-	
 	public void hitBowlingPin(int hitBowlingPinCount) {
 		this.bowlingPins -= hitBowlingPinCount;
 	}
-	
+
 }
